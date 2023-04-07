@@ -26,19 +26,25 @@ const useAuthor = async (userId) => {
   const author = await result.json();
   return author;
 };
-watch(
-  () => {
-    console.log("checking", props.item.userId);
-    return props.item.userId;
-  },
-  () => {
-    console.log("refreshing author", props.item.userId);
-    useAuthor(props.item.userId).then((_author) => {
-      author.value = _author;
-    });
-  },
-  {
-    immediate: true,
-  }
-);
+watchEffect(() => {
+  console.log("fetching author", props.item.userId);
+  useAuthor(props.item.userId).then((_author) => {
+    author.value = _author;
+  });
+});
+// watch(
+//   () => {
+//     console.log("checking", props.item.userId);
+//     return props.item.userId;
+//   },
+//   () => {
+//     console.log("refreshing author", props.item.userId);
+//     useAuthor(props.item.userId).then((_author) => {
+//       author.value = _author;
+//     });
+//   },
+//   {
+//     immediate: true,
+//   }
+// );
 </script>
